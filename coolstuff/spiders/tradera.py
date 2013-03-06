@@ -12,20 +12,24 @@ class TraderaSpider(CrawlSpider):
 
     rules = (
         Rule(SgmlLinkExtractor(allow=('.*',), restrict_xpaths=('//a[@class="nextPageBtn"]',)),callback='parse_item', follow=True),
+        Rule(SgmlLinkExtractor(allow=('.*',), restrict_xpaths=('//div[@class="ObjectHeadline"]/a/@href',)),callback='parse_item2', follow=True),
     )
 
     def parse_item(self, response):
+
         hxs = HtmlXPathSelector(response)
         #get all the text
-        items = hxs.select('//div[@class="ObjectHeadline"]/a/text()').extract()
+        items = hxs.select('//div[@class="ObjectHeadline"]/a/@href').extract()
         output_file = codecs.open("/home/jonas/data/scrapy/tradera.txt",
                                   encoding='utf-8', mode='a')
 
         for item in items:
-            output_file.write(item + '\n')
+            output_file.write('www.tradera.com' + item + '\n')
 
         output_file.close()
 
+    def parse_item2(self, response):
+        self.log("asdfsdf")
         
 
     def parse(self, response):
