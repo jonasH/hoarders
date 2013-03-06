@@ -1,7 +1,7 @@
 from scrapy.selector import HtmlXPathSelector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
-from coolstuff.items import CoolstuffItem
+from coolstuff.items import TraderaItem
 import codecs
 
 
@@ -12,7 +12,6 @@ class TraderaSpider(CrawlSpider):
 
     rules = (
         Rule(SgmlLinkExtractor(allow=('.*',), restrict_xpaths=('//a[@class="nextPageBtn"]',)),callback='parse_item', follow=True),
-        Rule(SgmlLinkExtractor(allow=('.*',), restrict_xpaths=('//a[@class="ObjectHeadline"]',)),callback='parse_add', follow=True),
     )
 
     def parse_item(self, response):
@@ -22,14 +21,11 @@ class TraderaSpider(CrawlSpider):
         output_file = codecs.open("/home/jonas/data/scrapy/tradera.txt",
                                   encoding='utf-8', mode='a')
 
-
         for item in items:
             output_file.write(item + '\n')
 
         output_file.close()
 
-    def parse_add(self, response):
-        pass
         
 
     def parse(self, response):
