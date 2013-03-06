@@ -5,11 +5,7 @@
 
 from scrapy.item import Item, Field
 
-class CoolstuffItem(Item):
-    # define the fields for your item here like:
-    #url = Field()
-    pass
 
-
-class TestItem(Item):
-    text = Field()
+class TraderaItem(Item):
+    
+    testField = Field()
