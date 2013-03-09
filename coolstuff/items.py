@@ -8,4 +8,16 @@ from scrapy.item import Item, Field
 
 class TraderaItem(Item):
     
-    testField = Field()
+    itemHeading = Field()
+    leadingBid = Field()
+    bids = Field()
+    remainingTime = Field()
+    finishTime = Field()
+    itemText = Field()
+    publiced = Field()
+    objectID = Field()
+    visitors = Field()
+    postage = Field()
+    startBid = Field()
+    seller = Field()
+    sellerRating = Field()
