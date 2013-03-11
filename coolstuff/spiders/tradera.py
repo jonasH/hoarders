@@ -26,22 +26,22 @@ class TraderaSpider(CrawlSpider):
 
         return result
             
-    def getStringFromXPath(self, xPath):
+    def getStringFromXPath(self, hxs, xPath):
         extractedText = hxs.select(xPath).extract()
-        self.getStringFromArray()
+        return self.getStringFromArray(extractedText)
 
     def parse_item2(self, response):
         """A callback function that produces traderaItems from auction html"""
         hxs = HtmlXPathSelector(response)
         traderaItem = TraderaItem()
 
-        traderaItem['itemHeading'] = self.getStringFromXPath('//h1[@class="auction_headline"]/text()')
-        traderaItem['leadingBid'] = self.getStringFromXPath('//label[@id="leadingBidAmount"]/text()')
-        traderaItem['bids'] = self.getStringFromXPath('//h5[@id="numberOfBids"]/text()')
-        traderaItem['remainingTime'] = self.getStringFromXPath('//label[@id="timeLeftLabel"]/text()')
-        traderaItem['itemText'] = self.getStringFromXPath('//div[@class="description"]/p/text()')
-        traderaItem['seller'] = self.getStringFromXPath('//a[@class="blueLink"]/b/text()')
-        traderaItem['sellerRating'] = self.getStringFromXPath('//div[@class="rightSideInfoInBoxG-bottomLine"]/a[@class="DSRMedium"]/text()')
+        traderaItem['itemHeading'] = self.getStringFromXPath(hxs, '//h1[@class="auction_headline"]/text()')
+        traderaItem['leadingBid'] = self.getStringFromXPath(hxs, '//label[@id="leadingBidAmount"]/text()')
+        traderaItem['bids'] = self.getStringFromXPath(hxs, '//h5[@id="numberOfBids"]/text()')
+        traderaItem['remainingTime'] = self.getStringFromXPath(hxs, '//label[@id="timeLeftLabel"]/text()')
+        traderaItem['itemText'] = self.getStringFromXPath(hxs, '//div[@class="description"]/p/text()')
+        traderaItem['seller'] = self.getStringFromXPath(hxs, '//a[@class="blueLink"]/b/text()')
+        traderaItem['sellerRating'] = self.getStringFromXPath(hxs, '//div[@class="rightSideInfoInBoxG-bottomLine"]/a[@class="DSRMedium"]/text()')
         if  len(hxs.select('//div[@class="objectInfoOnTop"]/text()')) == 3:
             traderaItem['publiced'] = hxs.select('//div[@class="objectInfoOnTop"]/text()').extract()[1].strip()
             traderaItem['objectID'] = hxs.select('//div[@class="objectInfoOnTop"]/text()').extract()[2].strip()
