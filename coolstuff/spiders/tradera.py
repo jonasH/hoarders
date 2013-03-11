@@ -4,7 +4,6 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from coolstuff.items import TraderaItem
 import codecs
 
-
 class TraderaSpider(CrawlSpider):
     name = 'tradera'
     allowed_domains = ['tradera.com']
@@ -27,23 +26,24 @@ class TraderaSpider(CrawlSpider):
 
         return result
             
+    def getStringFromXPath(self, xPath):
+        extractedText = hxs.select(xPath).extract()
+        self.getStringFromArray()
 
     def parse_item2(self, response):
         """A callback function that produces traderaItems from auction html"""
         hxs = HtmlXPathSelector(response)
         traderaItem = TraderaItem()
 
-        traderaItem['itemHeading'] = self.getStringFromArray(hxs.select('//h1[@class="auction_headline"]/text()').extract())
-        traderaItem['leadingBid'] = self.getStringFromArray(hxs.select('//label[@id="leadingBidAmount"]/text()').extract())
-        traderaItem['bids'] = self.getStringFromArray(hxs.select('//h5[@id="numberOfBids"]/text()').extract())
-        traderaItem['remainingTime'] = self.getStringFromArray(hxs.select('//label[@id="timeLeftLabel"]/text()').extract())
-        traderaItem['itemText'] = self.getStringFromArray(hxs.select('//div[@class="description"]/p/text()').extract())
-        traderaItem['seller'] = self.getStringFromArray(hxs.select('//a[@class="blueLink"]/b/text()').extract())
-        traderaItem['sellerRating'] = self.getStringFromArray(hxs.select('//div[@class="rightSideInfoInBoxG-bottomLine"]/a[@class="DSRMedium"]/text()').extract())
+        traderaItem['itemHeading'] = self.getStringFromXPath('//h1[@class="auction_headline"]/text()')
+        traderaItem['leadingBid'] = self.getStringFromXPath('//label[@id="leadingBidAmount"]/text()')
+        traderaItem['bids'] = self.getStringFromXPath('//h5[@id="numberOfBids"]/text()')
+        traderaItem['remainingTime'] = self.getStringFromXPath('//label[@id="timeLeftLabel"]/text()')
+        traderaItem['itemText'] = self.getStringFromXPath('//div[@class="description"]/p/text()')
+        traderaItem['seller'] = self.getStringFromXPath('//a[@class="blueLink"]/b/text()')
+        traderaItem['sellerRating'] = self.getStringFromXPath('//div[@class="rightSideInfoInBoxG-bottomLine"]/a[@class="DSRMedium"]/text()')
         if  len(hxs.select('//div[@class="objectInfoOnTop"]/text()')) == 3:
             traderaItem['publiced'] = hxs.select('//div[@class="objectInfoOnTop"]/text()').extract()[1].strip()
             traderaItem['objectID'] = hxs.select('//div[@class="objectInfoOnTop"]/text()').extract()[2].strip()
 
-
-        
         return traderaItem
