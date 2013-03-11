@@ -8,7 +8,7 @@ import codecs
 class TraderaSpider(CrawlSpider):
     name = 'tradera'
     allowed_domains = ['tradera.com']
-    start_urls = ['http://www.tradera.com/spel-gb-c3_300201']
+    start_urls = ['http://www.tradera.com/nintendo-gamecube-c3_3004', 'http://www.tradera.com/playstation-psone-c3_3012', 'http://www.tradera.com/playstation-2-ps2-c3_3013', 'http://www.tradera.com/sega-dreamcast-c3_3001', 'http://www.tradera.com/xbox-c3_3016']
 
     rules = (
         Rule(SgmlLinkExtractor(allow=('.*',), restrict_xpaths='//a[@class="nextPageBtn"]'),callback='parse_item', follow=True),
