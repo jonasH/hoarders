@@ -1,7 +1,7 @@
 from scrapy.selector import HtmlXPathSelector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.contrib.spiders import CrawlSpider, Rule
-from coolstuff.items import TraderaItem
+from hoarders.items import TraderaItem
 import codecs
 
 class TraderaSpider(CrawlSpider):
